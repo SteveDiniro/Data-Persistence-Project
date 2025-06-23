@@ -14,14 +14,30 @@ public class MenuUIHandler : MonoBehaviour
 
     public void StartNew()
     {
+        string playerName = nameInputField.text;
+        //string playerName = PlayerPrefs.GetString("PlayerName", "Unknown");
+        int highScore = PlayerPrefs.GetInt("HighScore", 0);
+        Debug.Log($"Player: {playerName}, High Score: {highScore}");
+
         PlayerData.PlayerName = nameInputField.text;
+
+        PlayerPrefs.SetString("PlayerName", playerName);
+        Debug.Log("Saving name: " + playerName);
+        PlayerPrefs.Save(); // force the write to disk
+
         SceneManager.LoadScene(1);
     }
 
-    public void StartGame()
+    public void Start()
     {
-        // PlayerData.PlayerName = nameInputField.text;
-        // SceneManager.LoadScene("main");
+        //string playerName = nameInputField.text;
+
+        //PlayerData.PlayerName = nameInputField.text;
+
+        //PlayerPrefs.SetString("PlayerName", playerName);
+        //PlayerPrefs.Save(); // force the write to disk
+
+        //SceneManager.LoadScene(1);
     }
 
     public void Exit()

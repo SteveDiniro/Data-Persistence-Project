@@ -11,6 +11,7 @@ public class MainManager : MonoBehaviour
     public Rigidbody Ball;
 
     public Text ScoreText;
+    public Text BestScoreText;
     public GameObject GameOverText;
     
     private bool m_Started = false;
@@ -53,7 +54,15 @@ public class MainManager : MonoBehaviour
             }
         }
 
-        Debug.Log("Player's name is: " + PlayerData.PlayerName);
+        //Debug.Log("Player's name is: " + PlayerData.PlayerName);
+
+        string playerName = PlayerPrefs.GetString("PlayerName", "Unknown");
+        int highScore = PlayerPrefs.GetInt("HighScore", 0);
+
+        // Debug.Log($"Player: {playerName}, High Score: {highScore}");
+
+        BestScoreText.text = "Best Score : " + playerName + " : " + highScore;
+
     }
 
     private void Update()
@@ -86,9 +95,27 @@ public class MainManager : MonoBehaviour
         ScoreText.text = $"Score : {m_Points}";
     }
 
+    public void SaveHighScore(int score)
+    {
+        int currentHigh = PlayerPrefs.GetInt("HighScore", 0);
+        if (m_Points > currentHigh)
+        {
+            PlayerPrefs.SetInt("HighScore", m_Points);
+            PlayerPrefs.Save();
+        }
+    }
+
     public void GameOver()
     {
         m_GameOver = true;
+        BestScoreText.text = "Best Score : " + PlayerData.PlayerName + " : " + m_Points;
         GameOverText.SetActive(true);
+        Debug.Log("Saved High Score: " + PlayerPrefs.GetInt("HighScore"));
+    }
+
+    void OnApplicationQuit()
+    {
+        // Ensure high score is saved here too
+        SaveHighScore(m_Points);
     }
 }
