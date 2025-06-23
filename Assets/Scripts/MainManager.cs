@@ -32,11 +32,11 @@ public class MainManager : MonoBehaviour
         }
 
         Instance = this; // assign "this" (current) object to the Instance variable of type MainManager
+        // The following line is preventing prefabs from loading when scene reloads
         //DontDestroyOnLoad(gameObject);
     }
 
 
-    // Start is called before the first frame update
     void Start()
     {
         const float step = 0.6f;
@@ -59,9 +59,6 @@ public class MainManager : MonoBehaviour
         //PlayerPrefs.Save();
         //Debug.Log("High score reset.");
 
-        //Debug.Log("Player's name is: " + PlayerData.PlayerName);
-
-        //string playerName = PlayerPrefs.GetString("PlayerName", "Unknown");
         string bestName = PlayerPrefs.GetString("HighScoreName", "Unknown");
         int highScore = PlayerPrefs.GetInt("HighScore", 0);
         BestScoreText.text = "Best Score : " + bestName + " : " + highScore;
