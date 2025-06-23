@@ -32,7 +32,7 @@ public class MainManager : MonoBehaviour
         }
 
         Instance = this; // assign "this" (current) object to the Instance variable of type MainManager
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
     }
 
 
@@ -54,14 +54,17 @@ public class MainManager : MonoBehaviour
             }
         }
 
+        // ********************* Toggle the comments on the next 3 lines, to reset any stored data **********************
+        //PlayerPrefs.DeleteKey("HighScore");
+        //PlayerPrefs.Save();
+        //Debug.Log("High score reset.");
+
         //Debug.Log("Player's name is: " + PlayerData.PlayerName);
 
-        string playerName = PlayerPrefs.GetString("PlayerName", "Unknown");
+        //string playerName = PlayerPrefs.GetString("PlayerName", "Unknown");
+        string bestName = PlayerPrefs.GetString("HighScoreName", "Unknown");
         int highScore = PlayerPrefs.GetInt("HighScore", 0);
-
-        // Debug.Log($"Player: {playerName}, High Score: {highScore}");
-
-        BestScoreText.text = "Best Score : " + playerName + " : " + highScore;
+        BestScoreText.text = "Best Score : " + bestName + " : " + highScore;
 
     }
 
@@ -101,6 +104,7 @@ public class MainManager : MonoBehaviour
         if (m_Points > currentHigh)
         {
             PlayerPrefs.SetInt("HighScore", m_Points);
+            PlayerPrefs.SetString("HighScoreName", PlayerData.PlayerName);
             PlayerPrefs.Save();
         }
     }
@@ -108,9 +112,13 @@ public class MainManager : MonoBehaviour
     public void GameOver()
     {
         m_GameOver = true;
-        BestScoreText.text = "Best Score : " + PlayerData.PlayerName + " : " + m_Points;
-        GameOverText.SetActive(true);
-        Debug.Log("Saved High Score: " + PlayerPrefs.GetInt("HighScore"));
+        int currentHigh = PlayerPrefs.GetInt("HighScore", 0);
+        if (m_Points > currentHigh)
+        {
+            BestScoreText.text = "Best Score : " + PlayerData.PlayerName + " : " + m_Points;
+        }
+
+        SaveHighScore(m_Points); GameOverText.SetActive(true);
     }
 
     void OnApplicationQuit()
