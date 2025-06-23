@@ -18,7 +18,23 @@ public class MainManager : MonoBehaviour
     
     private bool m_GameOver = false;
 
-    
+    public static MainManager Instance;
+
+    public Text PlayerName;
+
+    private void Awake()
+    {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this; // assign "this" (current) object to the Instance variable of type MainManager
+        DontDestroyOnLoad(gameObject);
+    }
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,6 +52,8 @@ public class MainManager : MonoBehaviour
                 brick.onDestroyed.AddListener(AddPoint);
             }
         }
+
+        Debug.Log("Player's name is: " + PlayerData.PlayerName);
     }
 
     private void Update()
