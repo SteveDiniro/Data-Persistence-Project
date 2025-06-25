@@ -28,18 +28,6 @@ public class MenuUIHandler : MonoBehaviour
         SceneManager.LoadScene(1);
     }
 
-    public void Start()
-    {
-        //string playerName = nameInputField.text;
-
-        //PlayerData.PlayerName = nameInputField.text;
-
-        //PlayerPrefs.SetString("PlayerName", playerName);
-        //PlayerPrefs.Save(); // force the write to disk
-
-        //SceneManager.LoadScene(1);
-    }
-
     public void Exit()
     {
         #if UNITY_EDITOR
